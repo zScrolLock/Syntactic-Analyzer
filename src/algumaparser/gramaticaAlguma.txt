@@ -1,0 +1,47 @@
+programa : ':' 'DECLARACOES' listaDeclaracoes ':' 'ALGORITMO' listaComandos;
+listaDeclaracoes : declaracao listaDeclaracoes | declaracao;
+declaracao : VARIAVEL ':' tipoVar;
+tipoVar : 'INTEIRO' | 'REAL';
+
+expressaoAritmetica : 
+    expressaoAritmetica '+' termoAritmetico | 
+    expressaoAritmetica '-' termoAritmetico | 
+    termoAritmetico;
+
+termoAritmetico : 
+    termoAritmetico '*' fatorAritmetico | 
+    termoAritmetico '/' fatorAritmetico | 
+    fatorAritmetico;
+
+fatorAritmetico : NUMINT | NUMREAL | VARIAVEL | '(' expressaoAritmetica ')'
+
+expressaoRelacional : 
+    expressaoRelacional operadorBooleano termoRelacional | 
+    termoRelacional;
+termoRelacional : 
+    expressaoAritmetica OP_REL expressaoAritmetica | 
+    '(' expressaoRelacional ')';
+
+operadorBooleano : 'E' | 'OU';
+
+listaComandos : comando listaComandos | comando;
+
+comando : 
+    comandoAtribuicao | 
+    comandoEntrada | 
+    comandoSaida | 
+    comandoCondicao | 
+    comandoRepeticao | 
+    subAlgoritmo;
+
+comandoAtribuicao : 'ATRIBUIR' expressaoAritmetica 'A' VARIAVEL;
+comandoEntrada : 'LER' VARIAVEL;
+comandoSaida : 'IMPRIMIR'  (VARIAVEL | CADEIA);
+
+comandoCondicao : 
+    'SE' expressaoRelacional 'ENTAO' comando | 
+    'SE' expressaoRelacional 'ENTAO' comando 'SENAO' comando;
+
+comandoRepeticao : 'ENQUANTO' expressaoRelacional comando;
+
+subAlgoritmo : 'INICIO' listaComandos 'FIM';
